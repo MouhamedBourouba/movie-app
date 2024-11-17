@@ -1,12 +1,15 @@
 import React from "react";
 import styles from "./navbar.module.css";
 import { Link } from "react-router-dom";
+import logo from "../../assets/logo.svg"
 
 function Navbar({ navigationItems }) {
   return (
     <nav className={styles.navbar}>
       <div className={styles.logo}>
-        <h2>Movie App</h2>
+        <img src={logo} />
+        <br />
+        <h2>Movier</h2>
       </div>
       <div className={styles.navigation}>
         {navigationItems.map((item, index) => (

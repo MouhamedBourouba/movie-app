@@ -6,13 +6,24 @@
   top: 0;
   left: 0;
   right: 0;
+  height: 50px;
   background-color: #333;
   padding: 1rem;
   color: white;
 }
 
+.logo {
+  display: flex;
+  flex-direction: row;
+}
+
 .logo h2 {
   margin: 0;
+  padding-left: 1rem;
+}
+
+.logo img {
+  height: 40px;
 }
 
 .navigation a {
