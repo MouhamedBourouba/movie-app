@@ -1,0 +1,26 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #333;
+  padding: 1rem;
+  color: white;
+}
+
+.logo h2 {
+  margin: 0;
+}
+
+.navigation a {
+  margin: 0 1rem;
+  color: white;
+  text-decoration: none;
+}
+
+.navigation a:hover {
+  text-decoration: underline;
+}
