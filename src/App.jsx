@@ -3,7 +3,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import Home from "./pages/home/home"
 import Search from "./pages/search/search"
 import Details from "./pages/details/details"
-import Navbar from './components/navbar/navbar'
+import Navbar from './components/navbar.jsx'
 import { Outlet } from 'react-router-dom'
 
 const router = createBrowserRouter([
@@ -29,12 +29,20 @@ const router = createBrowserRouter([
 
 const navigationItems = [
   {
-    route: "/",
-    name: "Movies"
+    route: "/popular",
+    name: "Popular"
   },
   {
-    route: "/search",
-    name: "Search"
+    route: "/now-playing",
+    name: "Now Playing"
+  },
+  {
+    route: "/top-rated",
+    name: "Top Rated"
+  },
+  {
+    route: "/upcomming",
+    name: "Upcomming"
   },
 ]
 
