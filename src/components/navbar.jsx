@@ -19,7 +19,7 @@ function Navbar({ navigationItems }) {
             key={index}
             to={item.route}
             className={({ isActive }) =>
-              `mr-4 self-center text-base font-semibold max-sm:text-[11px] ${isActive
+              `mr-4 self-center text-base font-semibold max-sm:text-xs ${isActive
                 ? "text-red-400 underline underline-offset-4"
                 : "text-white"
               } transition-all duration-200 ease-in-out hover:text-red-300 hover:underline max-sm:mr-2`
@@ -30,7 +30,7 @@ function Navbar({ navigationItems }) {
         ))}
       </div>
 
-      <div></div>
+      <img className="size-5 mr-2" src="./src/assets/search.svg" />
     </nav>
   );
 }
