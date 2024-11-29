@@ -2,13 +2,10 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 function Navbar({ navigationItems }) {
-  const lofff = () => {
-    console.log("yeaaaaah bubffy");
-  };
-
   return (
-    <nav className="fixed left-0 right-0 top-0 flex h-12 flex-row items-center justify-between bg-black pl-2">
-      <div onClick={lofff} className="flex flex-row">
+    <nav className="flex h-12 w-full
+      flex-row items-center justify-between bg-black">
+      <div className="ml-2 flex flex-row">
         <img src="./src/assets/logo.svg" className="size-8 self-center" />
         <h2 className="ml-1 self-center font-bold text-white">Movier</h2>
       </div>
@@ -30,7 +27,7 @@ function Navbar({ navigationItems }) {
         ))}
       </div>
 
-      <img className="size-5 mr-2" src="./src/assets/search.svg" />
+      <img className="mr-4 size-5" src="./src/assets/search.svg" />
     </nav>
   );
 }

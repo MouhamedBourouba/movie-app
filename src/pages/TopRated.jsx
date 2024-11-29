@@ -1,7 +1,7 @@
 function TopRated() {
   return <>
     <div>
-      <h1 className="bg-black">TopRated Page</h1>
+      <h1>Page</h1>
     </div>
   </>
 }

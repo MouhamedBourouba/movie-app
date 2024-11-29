@@ -1,11 +1,11 @@
-import { RouterProvider } from 'react-router-dom'
-import { createBrowserRouter } from 'react-router-dom'
-import Navbar from './components/navbar.jsx'
-import { Outlet } from 'react-router-dom'
-import Popular from './pages/Popular.jsx'
-import NowPlaying from './pages/NowPlaying.jsx'
-import TopRated from './pages/TopRated.jsx'
-import Upcomming from './pages/Upcomming.jsx'
+import { RouterProvider } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
+import Navbar from "./components/navbar.jsx";
+import { Outlet } from "react-router-dom";
+import Popular from "./pages/Popular.jsx";
+import NowPlaying from "./pages/NowPlaying.jsx";
+import TopRated from "./pages/TopRated.jsx";
+import Upcoming from "./pages/Upcoming.jsx";
 
 const router = createBrowserRouter([
   {
@@ -14,50 +14,40 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Popular />
+        element: <Popular />,
       },
       {
         path: "/now-playing",
-        element: <NowPlaying/>,
+        element: <NowPlaying />,
       },
       {
         path: "/top-rated",
-        element: <TopRated />
+        element: <TopRated />,
       },
       {
-        path: "/upcomming",
-        element: <Upcomming />
-      }
-    ]
+        path: "/upcoming",
+        element: <Upcoming />,
+      },
+    ],
   },
-])
+]);
 
 const navigationItems = [
-  {
-    route: "/",
-    name: "Popular"
-  },
-  {
-    route: "/now-playing",
-    name: "Now Playing"
-  },
-  {
-    route: "/top-rated",
-    name: "Top Rated"
-  },
-  {
-    route: "/upcomming",
-    name: "Upcomming"
-  },
-]
+  { route: "/", name: "Popular" },
+  { route: "/now-playing", name: "Now Playing" },
+  { route: "/top-rated", name: "Top Rated" },
+  { route: "/upcoming", name: "Upcoming" },
+];
 
 function Root() {
   return (
     <>
-      <Navbar navigationItems={navigationItems} />
-      <Outlet />
+      <div className="flex flex-col">
+        <Navbar navigationItems={navigationItems} />
+        <Outlet />
+      </div>
     </>
-  )
+  );
 }
 
 function App() {
@@ -65,7 +55,7 @@ function App() {
     <>
       <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
