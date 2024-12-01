@@ -42,7 +42,7 @@ const navigationItems = [
 function Root() {
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col bg-black">
         <Navbar navigationItems={navigationItems} />
         <Outlet />
       </div>
