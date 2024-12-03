@@ -3,14 +3,14 @@ import { NavLink } from "react-router-dom";
 
 function Navbar({ navigationItems }) {
   return (
-    <nav className="flex h-12 w-full flex-row items-center justify-between bg-black px-4">
+    <nav className="sticky left-0 top-0 flex h-12 w-full flex-row items-center justify-between z-50 bg-white">
       <div className="flex flex-row space-x-4">
         {navigationItems.map((item, index) => (
           <NavLink
             key={index}
             to={item.route}
             className={({ isActive }) =>
-              `text-base font-semibold text-white ${isActive ? "text-red-400 underline" : "hover:text-red-400"} transition-all duration-200 ease-in-out max-sm:text-xs`
+              `text-base font-semibold text-black ${isActive ? "text-red-500 underline" : "hover:text-red-500"} transition-all duration-200 ease-in-out max-sm:text-sm`
             }
           >
             {item.name}
