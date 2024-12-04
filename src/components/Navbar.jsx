@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 function Navbar({ navigationItems }) {
   return (
-    <nav className="sticky left-0 top-0 flex h-12 w-full flex-row items-center justify-between z-50 bg-white">
+    <nav className="sticky left-0 top-0 z-50 flex h-12 w-full flex-row items-center justify-between bg-white border-b border-black">
       <div className="flex flex-row space-x-4">
         {navigationItems.map((item, index) => (
           <NavLink
