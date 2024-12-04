@@ -10,15 +10,15 @@ function MovieCard({ movieData, onClick }) {
       <figure className="relative overflow-hidden rounded-xl">
         <img
           src={imgPath}
-          alt={movieData.name || "Movie Poster"}
+          alt={movieData.title || "Movie Poster"}
           className="h-72 w-full rounded-xl object-cover"
         />
       </figure>
       <p className="mt-2 truncate text-base font-bold text-black">
-        {movieData.name}
+        {movieData.title}
       </p>
       <p className="flex flex-row justify-between text-sm text-gray-400">
-        <p>{movieData.first_air_date || ""}</p>
+        <p>{movieData.release_date || ""}</p>
         <p className="flex flex-row items-center gap-1">
           <StarSVG />
           {String(movieData.vote_average).slice(0, 3)}
