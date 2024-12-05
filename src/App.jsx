@@ -15,23 +15,23 @@ const MovieCategory = Object.freeze({
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/movie-app/",
     element: <Root />,
     children: [
       {
-        path: "/",
+        index: true,
         element: <CategoryPage category={MovieCategory.POPULAR} />,
       },
       {
-        path: "/now-playing",
+        path: "now-playing",
         element: <CategoryPage category={MovieCategory.NOW_PLAYING} />,
       },
       {
-        path: "/top-rated",
+        path: "top-rated",
         element: <CategoryPage category={MovieCategory.TOP_RATED} />,
       },
       {
-        path: "/upcoming",
+        path: "upcoming",
         element: <CategoryPage category={MovieCategory.UPCOMING} />,
       },
     ],
@@ -39,15 +39,14 @@ const router = createBrowserRouter([
 ]);
 
 const navigationItems = [
-  { route: "/", name: "Popular" },
-  { route: "/now-playing", name: "Now Playing" },
-  { route: "/top-rated", name: "Top Rated" },
-  { route: "/upcoming", name: "Upcoming" },
+  { route: "/movie-app/", name: "Popular" },
+  { route: "/movie-app/now-playing", name: "Now Playing" },
+  { route: "/movie-app/top-rated", name: "Top Rated" },
+  { route: "/movie-app/upcoming", name: "Upcoming" },
 ];
 
-// Leaked intentionally
-
 function useMovieData(category, page) {
+  // Leaked intentionally
   const API_KEY =
     "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZGNhNTNlYzgwNzZkNzJlMjUwZTY5NzE3MzZjYTU4NiIsIm5iZiI6MTczMjkwMDcwMi45NDQ2Nzk1LCJzdWIiOiI2NzQ5ZjVmZmIzZDNlYjkzM2JhMjY0MGEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.VBF0u3Eh52wZV0NQRFRjMawa-JtLumxMUNP9JPsr2C8";
 
@@ -68,7 +67,7 @@ function useMovieData(category, page) {
   let [movieData, setData] = useState(null);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     fetch(buildUrl(category), opt)
       .then((res) => res.json())
       .then((res) => {
@@ -85,7 +84,6 @@ function CategoryPage({ category }) {
 
   return (
     <>
-      <div className=""></div>
       {loading && <LoadingCircle />}
       {!loading && movieData && (
         <div>
@@ -100,7 +98,7 @@ function CategoryPage({ category }) {
 function Root() {
   return (
     <>
-      <div className="mb-6 px-4 transition-all max-w-5xl mx-auto">
+      <div className="mx-auto mb-6 max-w-5xl px-4 transition-all">
         <Navbar navigationItems={navigationItems} />
         <div className="h-2"></div>
         <Outlet />
