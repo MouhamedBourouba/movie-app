@@ -98,7 +98,7 @@ function CategoryPage({ category }) {
 function Root() {
   return (
     <>
-      <div className="mx-auto mb-6 max-w-5xl px-4 transition-all">
+      <div className="mx-auto mb-6 max-w-6xl px-4 transition-all">
         <Navbar navigationItems={navigationItems} />
         <div className="h-2"></div>
         <Outlet />
