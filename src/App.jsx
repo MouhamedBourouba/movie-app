@@ -79,6 +79,14 @@ function useMovieData(category, page) {
   return { loading, movieData };
 }
 
+function PaginationButton({ lable, onClick }) {
+  return (
+    <button className="rounded-xl bg-red-500 px-4 py-1 text-white">
+      {lable}
+    </button>
+  );
+}
+
 function CategoryPage({ category }) {
   let { loading, movieData } = useMovieData(category);
 
@@ -88,7 +96,13 @@ function CategoryPage({ category }) {
       {!loading && movieData && (
         <div>
           <MovieList movieData={movieData} />
-          <p>PAGINATION</p>
+          <div className="mt-4 flex w-max flex-row gap-2 justify-center">
+            {movieData.page !== 1 && (
+              <PaginationButton lable={movieData.page - 1} />
+            )}
+            <PaginationButton lable={movieData.page} />
+            <PaginationButton lable={movieData.page + 1} />
+          </div>
         </div>
       )}
     </>
