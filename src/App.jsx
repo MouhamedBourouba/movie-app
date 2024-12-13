@@ -50,8 +50,8 @@ function useMovieData(category, page) {
   const API_KEY =
     "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZGNhNTNlYzgwNzZkNzJlMjUwZTY5NzE3MzZjYTU4NiIsIm5iZiI6MTczMjkwMDcwMi45NDQ2Nzk1LCJzdWIiOiI2NzQ5ZjVmZmIzZDNlYjkzM2JhMjY0MGEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.VBF0u3Eh52wZV0NQRFRjMawa-JtLumxMUNP9JPsr2C8";
 
-  const buildUrl = (cat) => {
-    const BASE_URL = `https://api.themoviedb.org/3/movie/${cat}?language=en-US&page=1?include_adult=false`;
+  const buildUrl = (cat, page) => {
+    const BASE_URL = `https://api.themoviedb.org/3/movie/${cat}?language=en-US&page=${page}?include_adult=false`;
     return BASE_URL;
   };
 
@@ -68,7 +68,7 @@ function useMovieData(category, page) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(buildUrl(category), opt)
+    fetch(buildUrl(category, page), opt)
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
@@ -79,16 +79,9 @@ function useMovieData(category, page) {
   return { loading, movieData };
 }
 
-function PaginationButton({ lable, onClick }) {
-  return (
-    <button className="rounded-xl bg-red-500 px-4 py-1 text-white">
-      {lable}
-    </button>
-  );
-}
-
 function CategoryPage({ category }) {
-  let { loading, movieData } = useMovieData(category);
+  let [page, setPage] = useState(1);
+  let { loading, movieData } = useMovieData(category, page);
 
   return (
     <>
@@ -96,12 +89,24 @@ function CategoryPage({ category }) {
       {!loading && movieData && (
         <div>
           <MovieList movieData={movieData} />
-          <div className="mt-4 flex w-max flex-row gap-2 justify-center">
-            {movieData.page !== 1 && (
-              <PaginationButton lable={movieData.page - 1} />
+          <div className="mt-4 flex w-max flex-row justify-center gap-2">
+            {page !== 1 && (
+              <button
+                className="rounded-xl bg-red-500 px-4 py-1 text-white"
+                onClick={() => setPage(page - 1)}
+              >
+                {page - 1}
+              </button>
             )}
-            <PaginationButton lable={movieData.page} />
-            <PaginationButton lable={movieData.page + 1} />
+            <button className="rounded-xl border border-red-500 bg-white px-4 py-1 text-red-500">
+              {page}
+            </button>
+            <button
+              className="rounded-xl bg-red-500 px-4 py-1 text-white"
+              onClick={() => setPage(page + 1)}
+            >
+              {page + 1}
+            </button>
           </div>
         </div>
       )}
