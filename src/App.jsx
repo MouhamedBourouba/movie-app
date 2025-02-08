@@ -1,135 +1,103 @@
-import { RouterProvider } from "react-router-dom";
-import { createBrowserRouter } from "react-router-dom";
-import Navbar from "./components/Navbar.jsx";
-import { Outlet } from "react-router-dom";
-import LoadingCircle from "./components/LoadingCircle.jsx";
-import MovieList from "./components/MovieList.jsx";
-import { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useParams,
+} from "react-router-dom";
 
-const MovieCategory = Object.freeze({
-  POPULAR: "popular",
-  NOW_PLAYING: "now_playing",
-  TOP_RATED: "top_rated",
-  UPCOMING: "upcoming",
-});
+import CategoryPage, { MovieCategory } from "./pages/CategoryPage.jsx";
+import { useState } from "react";
+import { useEffect } from "react";
+import { API_KEY } from "./Constants.js";
 
-const router = createBrowserRouter([
-  {
-    path: "/movie-app/",
-    element: <Root />,
-    children: [
-      {
-        index: true,
-        element: <CategoryPage category={MovieCategory.POPULAR} />,
-      },
-      {
-        path: "now-playing",
-        element: <CategoryPage category={MovieCategory.NOW_PLAYING} />,
-      },
-      {
-        path: "top-rated",
-        element: <CategoryPage category={MovieCategory.TOP_RATED} />,
-      },
-      {
-        path: "upcoming",
-        element: <CategoryPage category={MovieCategory.UPCOMING} />,
-      },
-    ],
-  },
-]);
-
-const navigationItems = [
-  { route: "/movie-app/", name: "Popular" },
-  { route: "/movie-app/now-playing", name: "Now Playing" },
-  { route: "/movie-app/top-rated", name: "Top Rated" },
-  { route: "/movie-app/upcoming", name: "Upcoming" },
-];
-
-function useMovieData(category, page) {
-  // Leaked intentionally
-  const API_KEY =
-    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZGNhNTNlYzgwNzZkNzJlMjUwZTY5NzE3MzZjYTU4NiIsIm5iZiI6MTczMjkwMDcwMi45NDQ2Nzk1LCJzdWIiOiI2NzQ5ZjVmZmIzZDNlYjkzM2JhMjY0MGEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.VBF0u3Eh52wZV0NQRFRjMawa-JtLumxMUNP9JPsr2C8";
-
-  const buildUrl = (cat, page) => {
-    const BASE_URL = `https://api.themoviedb.org/3/movie/${cat}?language=en-US&page=${page}?include_adult=false`;
-    return BASE_URL;
-  };
-
-  const opt = {
-    method: "get",
-    headers: {
-      Authorization: `Bearer ${API_KEY}`,
-      accept: "application/json",
-    },
-  };
-
-  let [loading, setLoading] = useState(true);
-  let [movieData, setData] = useState(null);
+const BASE_URL = "https://api.themoviedb.org/3/movie";
+function MoviePage() {
+  const { movieId } = useParams();
+  const [movie, setMovie] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
-    fetch(buildUrl(category, page), opt)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        setData(res);
-      })
-      .finally(() => setLoading(false));
-  }, [category, page]);
-  return { loading, movieData };
-}
+    async function fetchMovie() {
+      try {
+        setLoading(true);
 
-function CategoryPage({ category }) {
-  let [page, setPage] = useState(1);
-  let { loading, movieData } = useMovieData(category, page);
+        const opt = {
+          method: "get",
+          headers: {
+            Authorization: `Bearer ${API_KEY}`,
+            accept: "application/json",
+          },
+        };
+
+        const response = await fetch(
+          `${BASE_URL}/${movieId}?api_key=${API_KEY}&language=en-US`,
+          opt
+        );
+        if (!response.ok) throw new Error("Failed to fetch movie details");
+        const data = await response.json();
+        setMovie(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchMovie();
+  }, [movieId]);
+
+  if (loading) return <p className="text-center text-gray-500">Loading...</p>;
+  if (error) return <p className="text-center text-red-500">Error: {error}</p>;
+  if (!movie)
+    return <p className="text-center text-gray-500">Movie not found.</p>;
 
   return (
-    <>
-      {loading && <LoadingCircle />}
-      {!loading && movieData && (
-        <div>
-          <MovieList movieData={movieData} />
-          <div className="mt-4 flex w-max flex-row justify-center gap-2">
-            {page !== 1 && (
-              <button
-                className="rounded-xl bg-red-500 px-4 py-1 text-white"
-                onClick={() => setPage(page - 1)}
-              >
-                {page - 1}
-              </button>
-            )}
-            <button className="rounded-xl border border-red-500 bg-white px-4 py-1 text-red-500">
-              {page}
-            </button>
-            <button
-              className="rounded-xl bg-red-500 px-4 py-1 text-white"
-              onClick={() => setPage(page + 1)}
-            >
-              {page + 1}
-            </button>
-          </div>
-        </div>
-      )}
-    </>
-  );
-}
+    <div className="mx-auto max-w-4xl p-4">
+      <h1 className="text-2xl font-bold text-black">{movie.title}</h1>
+      <p className="text-gray-500">{movie.release_date}</p>
 
-function Root() {
-  return (
-    <>
-      <div className="mx-auto mb-6 max-w-6xl px-4 transition-all">
-        <Navbar navigationItems={navigationItems} />
-        <div className="h-2"></div>
-        <Outlet />
-      </div>
-    </>
+      <img
+        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+        alt={movie.title}
+        className="mt-4 rounded-xl shadow-lg"
+      />
+
+      <p className="mt-4 text-gray-700">{movie.overview}</p>
+
+      <p className="mt-2 text-lg font-bold text-yellow-500">
+        ⭐ {movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"}
+      </p>
+    </div>
   );
 }
 
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <Router>
+        <Routes>
+          <Route path="/movie-app">
+            <Route
+              index
+              element={<CategoryPage category={MovieCategory.POPULAR} />}
+            />
+            <Route
+              path="now-playing"
+              element={<CategoryPage category={MovieCategory.NOW_PLAYING} />}
+            />
+            <Route
+              path="top-rated"
+              element={<CategoryPage category={MovieCategory.TOP_RATED} />}
+            />
+            <Route
+              path="upcoming"
+              element={<CategoryPage category={MovieCategory.UPCOMING} />}
+            />
+          </Route>
+          <Route path="/movie-app/movie/:movieId" element={<MoviePage />} />
+        </Routes>
+      </Router>
     </>
   );
 }

@@ -18,11 +18,11 @@ function MovieCard({ movieData, onClick }) {
         {movieData.title}
       </p>
       <p className="flex flex-row justify-between text-sm text-gray-400">
-        <p>{movieData.release_date || ""}</p>
-        <p className="flex flex-row items-center gap-1">
+        <span>{movieData.release_date || ""}</span>
+        <span className="flex flex-row items-center gap-1">
           <StarSVG />
           {String(movieData.vote_average).slice(0, 3)}
-        </p>
+        </span>
       </p>
     </div>
   );
