@@ -32,9 +32,11 @@ function MoviePage() {
 
         const response = await fetch(
           `${BASE_URL}/${movieId}?api_key=${API_KEY}&language=en-US`,
-          opt
+          opt,
         );
+
         if (!response.ok) throw new Error("Failed to fetch movie details");
+
         const data = await response.json();
         setMovie(data);
       } catch (err) {

@@ -4,6 +4,7 @@ import LoadingCircle from "../components/LoadingCircle";
 import Navbar from "../components/Navbar.jsx";
 import { useNavigate } from "react-router-dom";
 import { API_KEY } from "../Constants";
+import { useSearchParams } from "react-router-dom";
 
 const MovieCategory = Object.freeze({
   POPULAR: "popular",
@@ -51,7 +52,11 @@ const navigationItems = [
 ];
 
 function CategoryPage({ category }) {
-  let [page, setPage] = useState(1);
+  let [searchParams] = useSearchParams();
+  let page = Number(searchParams.get("page"));
+  if (page === 0) {
+    page = 1;
+  }
   let { loading, movieData } = useMovieData(category, page);
   let navigator = useNavigate();
 
@@ -71,7 +76,10 @@ function CategoryPage({ category }) {
               {page !== 1 && (
                 <button
                   className="rounded-xl bg-red-500 px-4 py-1 text-white"
-                  onClick={() => setPage(page - 1)}
+                  onClick={() => {
+                    navigator(`/movie-app?page=${page - 1}`);
+                    window.scrollTo(0, 0);
+                  }}
                 >
                   {page - 1}
                 </button>
@@ -81,7 +89,10 @@ function CategoryPage({ category }) {
               </button>
               <button
                 className="rounded-xl bg-red-500 px-4 py-1 text-white"
-                onClick={() => setPage(page + 1)}
+                onClick={() => {
+                  navigator(`/movie-app?page=${page + 1}`);
+                  window.scrollTo(0, 0);
+                }}
               >
                 {page + 1}
               </button>

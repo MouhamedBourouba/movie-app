@@ -1,9 +1,6 @@
 import MovieCard from "./MovieCard";
 
 function MovieList({ movieData, onClick }) {
-
-  console.log(`${movieData}`)
-
   return (
     <>
       <div>
